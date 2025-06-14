@@ -1,0 +1,21 @@
+{
+  "name": "rce_prices_loxone",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/b0b3ck/rce_prices_loxone.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/b0b3ck/rce_prices_loxone/issues"
+  },
+  "homepage": "https://github.com/b0b3ck/rce_prices_loxone#readme"
+}
