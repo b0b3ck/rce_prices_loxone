@@ -52,7 +52,7 @@ rce_prices_loxone/
 
 1. Clone the Repo
     ```bash
-    git clone https://github.com/b0b3ck/rce_prices_loxone.git\
+    git clone https://github.com/b0b3ck/rce_prices_loxone.git
     cd rce_prices_loxone
     ```
 2. Create and Configure .env\
@@ -76,7 +76,7 @@ Copy the example:
     Visit: http://localhost:3000
 
 ## 🐳 Docker Deployment
-Use the following Docker Compose setup:\
+Use the following Docker Compose setup:
 ```yaml
 version: '3'
 services:
