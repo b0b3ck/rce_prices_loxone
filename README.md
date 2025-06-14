@@ -47,63 +47,64 @@ rce_prices_loxone/
 ## 🛠 Installation
 
 1. Clone the Repo
-    ```text
-    it clone https://github.com/b0b3ck/rce_prices_loxone.git\
+    ```bash
+    git clone https://github.com/b0b3ck/rce_prices_loxone.git\
     cd rce_prices_loxone
     ```
 2. Create and Configure .env\
 Copy the example:
-    ```text
+    ```bash
     cp .env.example .env
     ```
     Then update the values in .env:
-    ```text
+    ```env
     MONGO_URI=mongodb://localhost:27017/rce_prices
     PSE_API_BASE=https://your-api-url
     ```
 3. Install Dependencies
-    ```text
+    ```bash
     npm install
     ```
 4. Start the Server
-    ```text
+    ```bash
     npm start
     ```
     Visit: http://localhost:3000
 
 ## 🐳 Docker Deployment
 Use the following Docker Compose setup:\
-    
-    version: '3'
-    services:
-        app:
-            image: node:24-alpine
-            working_dir: /app
-            command: >
-                sh -c "
-                apk add --no-cache git &&
-                git clone https://github.com/b0b3ck/rce_prices_loxone.git . &&
-                npm install &&
-                npm start
-                "
-            environment:
-                - MONGO_URI=mongodb://mongo:27017/rce_prices
-                - PSE_API_BASE=https://your-api-url
-            ports:
-                - "3000:3000"
-            depends_on:
-                - mongo
+```yaml
+version: '3'
+services:
+    app:
+        image: node:24-alpine
+        working_dir: /app
+        command: >
+            sh -c "
+            apk add --no-cache git &&
+            git clone https://github.com/b0b3ck/rce_prices_loxone.git . &&
+            npm install &&
+            npm start
+            "
+        environment:
+            - MONGO_URI=mongodb://mongo:27017/rce_prices
+            - PSE_API_BASE=https://your-api-url
+        ports:
+            - "3000:3000"
+        depends_on:
+            - mongo
 
-        mongo:
-            image: mongo:6
-            restart: always
-            ports:
-                - "27017:27017"
+    mongo:
+        image: mongo:6
+        restart: always
+        ports:
+            - "27017:27017"
         volumes:
             - mongodb_data:/data/db
 
     volumes:
     mongodb_data:
+```
 
 ## 📡 API Endpoints
 
