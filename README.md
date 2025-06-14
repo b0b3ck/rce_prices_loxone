@@ -1,6 +1,6 @@
 # ⚡ RCE Prices to Loxone
 
-This project fetches electricity prices (e.g., from PSE) and makes them accessible via a simple REST API for use with Loxone smart home systems or any automation controller.
+This project fetches electricity prices (e.g., from PSE) and makes them accessible via a simple REST API for use with [Loxone](https://www.loxone.com/) smart home systems or any automation controller.
 
 ---
 
@@ -94,3 +94,22 @@ Use the following Docker Compose setup:\
 
     volumes:
     mongodb_data:
+
+## 📡 API Endpoints
+
+| Method | Endpoint             | Description                  |
+| ------ | -------------------- | ---------------------------- |
+| GET    | `/api/prices`        | Get all stored price entries |
+| GET    | `/api/prices/today`  | Get prices for today         |
+| GET    | `/api/prices/latest` | Get the most recent price    |
+
+## ⏰ Scheduler
+
+The app uses a cron scheduler to fetch prices at set times.
+You can customize it in scheduler.js using [node-cron](https://www.npmjs.com/package/node-cron) syntax.
+
+## 🐞 Development Notes
+
+- Logs are shown in the terminal.
+- Use console.log() for debugging.
+- Add additional .env keys as needed (e.g., API keys).
