@@ -17,7 +17,7 @@ COPY . .
 ENV NODE_ENV=production
 
 # Expose port if you're running an API/server
-EXPOSE 3000
+EXPOSE 3030
 
 # Start the app (adjust if your entry point differs)
 CMD ["node", "server.js"]

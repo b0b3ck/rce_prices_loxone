@@ -16,6 +16,8 @@ services:
   mongo:
     image: mongo:6
     restart: always
+    ports:
+      - "27017:27017" # maps container port 27017 to host
     volumes:
       - mongodb_data:/data/db
 
