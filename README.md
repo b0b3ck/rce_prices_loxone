@@ -28,15 +28,19 @@ This project fetches electricity prices (e.g., from PSE) and makes them accessib
 
 ```text
 rce_prices_loxone/
-├── server.js           # Main app entry point
+├── server.js                  # Main app entry point
 ├── routes/
-│   └── api.js          # API route for serving stored price data
+│   └── allPrices.js           # API route for serving all prices
+│   └── energy.js              # API route for serving relative prices for Loxone
 ├── services/
-│   └── prices.js       # Logic for fetching and processing PSE price data
+│   └── fetchPrices.js         # Logic for fetching and processing PSE price data
 ├── models/
-│   └── Price.js        # Mongoose schema for price entries
-├── scheduler.js        # Cron-based task to fetch prices on a schedule
-├── .env.example        # Example environment configuration file
+│   └── EnergyPrice.js         # Mongoose schema for price entries
+├── .env.example               # Example environment configuration file
+├── package.json               # Project dependencies and scripts
+├── package-lock.json          # Exact dependency versions
+├── Dockerfile                 # Docker configuration for building the app image
+└── docker-compose.yml         # Docker Compose setup for app + MongoDB
 ```
 ## ⚙️ Requirements
 
@@ -124,3 +128,7 @@ You can customize it in scheduler.js using [node-cron](https://www.npmjs.com/pac
 - Logs are shown in the terminal.
 - Use console.log() for debugging.
 - Add additional .env keys as needed (e.g., API keys).
+
+## 📃 License
+
+MIT © [b0b3ck](https://github.com/b0b3ck)
