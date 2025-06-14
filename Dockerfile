@@ -1,5 +1,5 @@
 # Use lightweight Node.js Alpine image
-FROM node:20-alpine
+FROM node:24-alpine
 
 # Set working directory
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . .
 ENV NODE_ENV=production
 
 # Expose port if you're running an API/server
-EXPOSE 3030
+EXPOSE 3000
 
 # Start the app (adjust if your entry point differs)
 CMD ["node", "server.js"]
