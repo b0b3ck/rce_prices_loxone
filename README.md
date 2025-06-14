@@ -6,9 +6,19 @@ This project fetches electricity prices (e.g., from PSE) and makes them accessib
 
 ## 🚀 Features
 
-- Fetches current electricity prices on a schedule
+- Fetches current electricity prices on a schedule (curent setup is 14:00 as usually at this time prices for the next day are available)
 - Stores data in MongoDB
-- REST API to expose price data
+- REST API to expose price data. Data for Loxoe are exposed in relative way as below:
+    ```
+    "hour +00": {
+        "value": 0.424,
+        "hour": "00:00"
+    },
+    "hour +01": {
+        "value": 0.421,
+        "hour": "01:00"
+    },
+    ```
 - Node.js + Express + Mongoose-based
 - Easy to deploy locally or via Docker
 
