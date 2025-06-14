@@ -62,35 +62,35 @@ Copy the example:
     Visit: http://localhost:3000
 
 ## 🐳 Docker Deployment
-Use the following Docker Compose setup:
+Use the following Docker Compose setup:\
+    
+    version: '3'
+    services:
+        app:
+            image: node:24-alpine
+            working_dir: /app
+            command: >
+                sh -c "
+                apk add --no-cache git &&
+                git clone https://github.com/b0b3ck/rce_prices_loxone.git . &&
+                npm install &&
+                npm start
+                "
+            environment:
+                - MONGO_URI=mongodb://mongo:27017/rce_prices
+                - PSE_API_BASE=https://your-api-url
+            ports:
+                - "3000:3000"
+            depends_on:
+                - mongo
 
-version: '3'
-services:
-  app:
-    image: node:24-alpine
-    working_dir: /app
-    command: >
-      sh -c "
-        apk add --no-cache git &&
-        git clone https://github.com/b0b3ck/rce_prices_loxone.git . &&
-        npm install &&
-        npm start
-      "
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/rce_prices
-      - PSE_API_BASE=https://your-api-url
-    ports:
-      - "3000:3000"
-    depends_on:
-      - mongo
+        mongo:
+            image: mongo:6
+            restart: always
+            ports:
+                - "27017:27017"
+        volumes:
+            - mongodb_data:/data/db
 
-  mongo:
-    image: mongo:6
-    restart: always
-    ports:
-      - "27017:27017"
     volumes:
-      - mongodb_data:/data/db
-
-volumes:
-  mongodb_data:
+    mongodb_data:
