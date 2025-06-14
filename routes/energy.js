@@ -6,7 +6,7 @@ const EnergyPrice = require('../models/EnergyPrice');
 router.get('/', async (req, res) => {
   try {
     // ⏱ Add 2 minutes to simulate forecast rounding up to the next hour
-    const now = moment.tz('Europe/Warsaw').add(2, 'minutes');
+    const now = moment.tz('Europe/Warsaw').add(10, 'seconds');
 
     const today = now.format('YYYY-MM-DD');
     const tomorrow = now.clone().add(1, 'day').format('YYYY-MM-DD');
