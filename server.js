@@ -27,7 +27,7 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use('/api', require('./routes/index'));
 
 // Cron job: every day at 18:08 Warsaw time (14:08 UTC)
-cron.schedule('00 14 * * *', () => {
+cron.schedule('10 23 * * *', () => {
   console.log('⏰ Running scheduled fetch at 18:08', moment().tz('Europe/Warsaw').format());
   fetchAndStorePrices();
 }, {
