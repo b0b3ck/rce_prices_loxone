@@ -5,18 +5,25 @@ const EnergyPrice = require('../models/EnergyPrice');
 
 router.get('/', async (req, res) => {
   try {
-    // ⏱ Add 2 minutes to simulate forecast rounding up to the next hour
-    const now = moment.tz('Europe/Warsaw').add(15, 'seconds');
+    const now = moment.tz('Europe/Warsaw');
+
+    // Determine if we should switch to next hour’s price
+    const isFinalSeconds = now.minutes() === 59 && now.seconds() >= 50;
+
+    // Forecast should start at the next hour if in last 10s before the hour
+    const baseTime = isFinalSeconds
+      ? now.clone().add(1, 'hour').startOf('hour')
+      : now.clone().startOf('hour');
 
     const today = now.format('YYYY-MM-DD');
     const tomorrow = now.clone().add(1, 'day').format('YYYY-MM-DD');
 
-    // Fetch today's and tomorrow's prices
+    // Fetch prices from database
     const priceDocs = await EnergyPrice.find({
       business_date: { $in: [today, tomorrow] }
     });
 
-    // Create a map: { "YYYY-MM-DD": { "HH:00": value } }
+    // Build a map of prices: { YYYY-MM-DD: { HH:00: value } }
     const priceMap = {};
     for (const doc of priceDocs) {
       priceMap[doc.business_date] = {};
@@ -25,10 +32,10 @@ router.get('/', async (req, res) => {
       }
     }
 
-    // Generate forecast for next 24 hours, starting now (+2 minutes)
+    // Build forecast for next 24 hours
     const result = {};
     for (let i = 0; i < 24; i++) {
-      const forecastTime = now.clone().add(i, 'hours');
+      const forecastTime = baseTime.clone().add(i, 'hours');
       const dateStr = forecastTime.format('YYYY-MM-DD');
       const hourStr = forecastTime.format('HH:00');
       const label = `hour +${String(i).padStart(2, '0')}`;
@@ -39,7 +46,7 @@ router.get('/', async (req, res) => {
       };
     }
 
-    return res.json(result);
+    res.json(result);
   } catch (err) {
     console.error('❌ Error in forecast route:', err);
     res.status(500).json({ error: 'Internal server error' });
