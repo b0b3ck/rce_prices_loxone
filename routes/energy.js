@@ -12,6 +12,9 @@ router.get('/', async (req, res) => {
       ? now.clone().startOf('hour')
       : now.clone().startOf('hour');
 
+    // But to align to your logic:
+    // if we're exactly on the hour (like 11:00:00), start from that hour,
+    // otherwise (like 10:59:59 or 10:30:00), still start from current hour
     const forecastStart = now.minutes() === 0 && now.seconds() === 0
       ? now.clone().startOf('hour')
       : now.clone().startOf('hour');
@@ -37,4 +40,20 @@ router.get('/', async (req, res) => {
     for (let i = 0; i < 24; i++) {
       const forecastTime = forecastStart.clone().add(i, 'hours');
       const dateStr = forecastTime.format('YYYY-MM-DD');
-      const hourStr = forecastTime.forma
+      const hourStr = forecastTime.format('HH:00');
+      const label = `hour +${String(i).padStart(2, '0')}`;
+
+      result[label] = {
+        value: priceMap?.[dateStr]?.[hourStr] ?? null,
+        hour: hourStr
+      };
+    }
+
+    res.json(result);
+  } catch (err) {
+    console.error('❌ Error in forecast route:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+module.exports = router;
