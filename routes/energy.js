@@ -7,23 +7,23 @@ router.get('/', async (req, res) => {
   try {
     const now = moment.tz('Europe/Warsaw');
 
-    // Determine if we should switch to next hour’s price
-    const isFinalSeconds = now.minutes() === 59 && now.seconds() >= 50;
+    // Determine base time: if we are exactly at HH:00:00 or later in the minute, we start from this hour
+    const baseTime = now.seconds() === 0 && now.minutes() % 1 === 0
+      ? now.clone().startOf('hour')
+      : now.clone().startOf('hour');
 
-    // Forecast should start at the next hour if in last 10s before the hour
-    const baseTime = isFinalSeconds
-      ? now.clone().add(1, 'hour').startOf('hour')
+    const forecastStart = now.minutes() === 0 && now.seconds() === 0
+      ? now.clone().startOf('hour')
       : now.clone().startOf('hour');
 
     const today = now.format('YYYY-MM-DD');
     const tomorrow = now.clone().add(1, 'day').format('YYYY-MM-DD');
 
-    // Fetch prices from database
     const priceDocs = await EnergyPrice.find({
       business_date: { $in: [today, tomorrow] }
     });
 
-    // Build a map of prices: { YYYY-MM-DD: { HH:00: value } }
+    // Map prices into: { YYYY-MM-DD: { HH:00: value } }
     const priceMap = {};
     for (const doc of priceDocs) {
       priceMap[doc.business_date] = {};
@@ -32,25 +32,9 @@ router.get('/', async (req, res) => {
       }
     }
 
-    // Build forecast for next 24 hours
+    // Build 24-hour forecast starting from forecastStart
     const result = {};
     for (let i = 0; i < 24; i++) {
-      const forecastTime = baseTime.clone().add(i, 'hours');
+      const forecastTime = forecastStart.clone().add(i, 'hours');
       const dateStr = forecastTime.format('YYYY-MM-DD');
-      const hourStr = forecastTime.format('HH:00');
-      const label = `hour +${String(i).padStart(2, '0')}`;
-
-      result[label] = {
-        value: priceMap?.[dateStr]?.[hourStr] ?? null,
-        hour: hourStr
-      };
-    }
-
-    res.json(result);
-  } catch (err) {
-    console.error('❌ Error in forecast route:', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-module.exports = router;
+      const hourStr = forecastTime.forma
