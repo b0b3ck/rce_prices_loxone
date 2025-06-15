@@ -114,8 +114,8 @@ services:
 
 | Method | Endpoint             | Description                  |
 | ------ | -------------------- | ---------------------------- |
-| GET    | `/api/prices`        | Get all stored price entries |
-| GET    | `/api/prices/today`  | Get prices for today         |
+| GET    | `/api/all-prices`    | Get all stored price entries |
+| GET    | `/api/api/energy  `  | Get prices for today         |
 | GET    | `/api/prices/latest` | Get the most recent price    |
 
 ## ⏰ Scheduler
